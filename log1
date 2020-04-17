@@ -1,0 +1,29 @@
+
+<?php
+session_start();
+$uname=$_POST["un"];
+$pwr=$_POST["pw"];
+$db=mysql_connect("localhost","root","rootwdp");
+mysql_select_db("sample",$db);
+$z="select logindetails.uname,logindetails.password,personalinfo.name,personalinfo.location,personalinfo.com from logindetails,personalinfo where logindetails.uname='$uname' and logindetails.password='$pwr' and logindetails.uid=personalinfo.uid";
+$s=mysql_query($z);
+$row=mysql_fetch_row($s);
+$a1=$row[0];
+$a2=$row[1];
+$a3=$row[2];
+$a4=$row[3];
+$a5=$row[4];
+if($a1==$uname && $a2==$pwr)
+{
+    $name=$SESSION['name']=$a3;
+	$location=$SESSION['location']=$a4;
+	$com=$SESSION['company']=$a5;
+    echo"<h3>";  echo "NAME: ".$name; echo"<br/>"; echo"</h3>";
+    echo"<h3>";  echo "LOCATION: ".$location; echo"<br/></h3>";
+	echo"<h3>";  echo "COMPANY: ".$com; echo"<br/>"; echo"</h3>";
+}
+else
+{
+	 echo "<h1>Enter correct details</h1>";
+}
+?>
